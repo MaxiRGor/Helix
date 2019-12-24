@@ -5,20 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
+
+    public GameObject waterParticles;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
+        Instantiate(waterParticles, transform);
         if (collision.gameObject.GetComponent<Renderer>().material.color == Color.red)
         {
             Debug.Log("Red");

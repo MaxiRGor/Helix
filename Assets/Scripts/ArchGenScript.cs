@@ -39,13 +39,16 @@ public class ArchGenScript : MonoBehaviour
 
         }
 
-/*        //to be sure there is as least 1 obstacle in a cylinder
-        if (isAtLeastObstacle)
+        //to be sure there is as least 1 obstacle in a cylinder
+        if (isAtLeastObstacle==true)
         {
             addArch(numberOfArches - 1, yPosition);
         }
-        else Debug.Log("NoObstacles");*/
-
+        else
+        {
+            Debug.Log("obstacle placed on a " + (numberOfArches - 1) + " position");
+        }
+        Debug.Log(isAtLeastObstacle + " " + yPosition);
     }
 
     private void addArch(int i, float yPosition)

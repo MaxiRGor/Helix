@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyIfInvisible : MonoBehaviour
+public class DestroyByYPosition : MonoBehaviour
 {
 
     private GameObject player;

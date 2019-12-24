@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFallowScript : MonoBehaviour
+public class CameraFollowScript : MonoBehaviour
 {
     public GameObject playerSphere;
     public float cameraOffsetY = 8f;
