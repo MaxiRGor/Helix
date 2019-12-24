@@ -11,7 +11,8 @@ public class PlayerScript : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        Instantiate(waterParticles, transform);
+       // Instantiate(waterParticles, transform);
+
         if (collision.gameObject.GetComponent<Renderer>().material.color == Color.red)
         {
             Debug.Log("Red");
