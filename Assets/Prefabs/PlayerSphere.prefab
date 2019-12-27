@@ -82,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!135 &7456766523809941704
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -124,4 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterParticles: {fileID: 7352095973276880246, guid: 7afb88342f4da154f9693f747137ced7,
+    type: 3}
+  goodArch: {fileID: 5678893977669925555, guid: 4cf6c2fbc5188054e86d7aa89ef349d1,
     type: 3}

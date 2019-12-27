@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 7124038418683096513}
   - component: {fileID: 4257511119978748224}
   - component: {fileID: 2799183146068344053}
-  - component: {fileID: 7683140036970098737}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -85,6 +84,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &7124038418683096515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5664,7 +5664,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!114 &4257511119978748224
@@ -5679,6 +5679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fdabd5ac3f2b464a88b9a9244d1c397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cylinderPrefab: {fileID: 7124038418683096526}
 --- !u!114 &2799183146068344053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5691,17 +5692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0332d5f43b61b4bbf05fc52798f34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  archPrefab: {fileID: 5678893977669925555, guid: 4cf6c2fbc5188054e86d7aa89ef349d1,
+  goodArchPrefab: {fileID: 5678893977669925555, guid: 4cf6c2fbc5188054e86d7aa89ef349d1,
     type: 3}
---- !u!114 &7683140036970098737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7124038418683096526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a3e5210ba75c5449b8f20d7c7033acb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  badArchPrefab: {fileID: 5678893977669925555, guid: 7da3d19941107e3428cfe77266ab7908,
+    type: 3}

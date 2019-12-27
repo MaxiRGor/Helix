@@ -1,33 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float speed;
+    public float rotationBoost;
     public bool canMove = true;
+    private float moveHorizontal;
 
     private void FixedUpdate()
     {
         if (canMove)
         {
-            float moveHorizontal = Input.GetAxis("Mouse X");
             if (SystemInfo.deviceType == DeviceType.Desktop)
             {
-                speed = 10f;
-                moveHorizontal = Input.GetAxis("Horizontal");
-                transform.Rotate(new Vector3(0, speed * moveHorizontal, 0));
-
+                rotationBoost = 10f;
+                moveHorizontal = Input.GetAxis("Horizontal") * rotationBoost;
+                if (moveHorizontal != 0) transform.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, moveHorizontal, 0));
             }
             else
             if (Input.touchCount > 0)
             {
-                speed = 0.1f;
-                moveHorizontal = Input.touches[0].deltaPosition.x;
-                transform.Rotate(new Vector3(0, speed * moveHorizontal, 0));
+                rotationBoost = 0.2f;
+                moveHorizontal = Input.touches[0].deltaPosition.x * rotationBoost;
+                if (moveHorizontal != 0) transform.rotation = transform.rotation * Quaternion.Euler(new Vector3(0, moveHorizontal, 0));
             }
 
         }
     }
+
+
 }

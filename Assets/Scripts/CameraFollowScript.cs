@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollowScript : MonoBehaviour
 {
     public GameObject playerSphere;
-    public float cameraOffsetY = 8f;
+    public float cameraOffsetY = 0f;
 
     void Update()
     {

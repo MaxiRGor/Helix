@@ -5,80 +5,124 @@ using UnityEngine;
 
 public class ArchGenScript : MonoBehaviour
 {
-    public GameObject archPrefab;
+    public GameObject goodArchPrefab;
+    public GameObject badArchPrefab;
+
     private int numberOfArches = 18;
     private float radius = 5.01f;
-    private Material material;
-    private bool isAtLeastObstacle = false;
     private float circleLength = 10f;
     private float circleStep = 10f;
 
+    private List<GameObject> arches;// = new List<GameObject>();
+    private List<GameObject> goodArches;// = new List<GameObject>();
 
-    public void addCircles(float yPosition)
+    private void Start()
     {
-        for(float i = 0; i<circleLength; i += circleStep)
-        {
-            addCircle(i + yPosition);
-        }
+        StartCoroutine(addCircles(transform.position.y));
+        arches = new List<GameObject>();
+        goodArches = new List<GameObject>();
     }
-    private void addCircle(float yPosition)
+
+    public IEnumerator addCircles(float yPosition)
     {
-        for (int i = 0; i < numberOfArches - 1; i++)
+        yield return new WaitForEndOfFrame();
+        for (float i = 0; i < circleLength; i += circleStep)
         {
+            yield return StartCoroutine(addCircle(i + yPosition));
+        }
+        yield return new WaitForEndOfFrame();
+    }
+    private IEnumerator addCircle(float yPosition)
+    {
+
+        for (int i = 0; i < numberOfArches; i++)
+        {
+
             // obstacle probability = 10%
             bool isObstacle = (UnityEngine.Random.Range(0, 9) == 0);
 
             if (!isObstacle)
             {
-                addArch(i, yPosition);
-            }
-            else
-            {
-                isAtLeastObstacle = true;
+                yield return StartCoroutine(addArch(i, yPosition));
             }
 
+            yield return new WaitForEndOfFrame();
         }
 
-        //to be sure there is as least 1 obstacle in a cylinder
-        if (isAtLeastObstacle==true)
-        {
-            addArch(numberOfArches - 1, yPosition);
-        }
-        else
-        {
-            Debug.Log("obstacle placed on a " + (numberOfArches - 1) + " position");
-        }
-        Debug.Log(isAtLeastObstacle + " " + yPosition);
+        yield return new WaitForEndOfFrame();
     }
 
-    private void addArch(int i, float yPosition)
+    private IEnumerator addArch(int i, float yPosition)
     {
+        // bad probability = 20%
+        bool isBad = (UnityEngine.Random.Range(0, 4) == 0);
         float angle = i * Mathf.PI * 2 / numberOfArches;
         float x = Mathf.Cos(angle) * radius;
         float z = Mathf.Sin(angle) * radius;
-        Vector3 pos = /*transform.position*/  new Vector3(x, yPosition, z);
+        Vector3 pos = new Vector3(x, yPosition, z);
         float angleDegrees = -angle * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.Euler(90, angleDegrees, 0);
-        GameObject arch = Instantiate(archPrefab, pos, rot);
-        setArchColor(arch, i);
-    }
-
-    private void setArchColor(GameObject arch, int i)
-    {
-        arch.name = "Arch " + i;
-
-        // red probability = 20%
-        bool isRed = (UnityEngine.Random.Range(0, 4) == 0);
-
-        material = arch.GetComponent<Renderer>().material;
-        if (isRed)
+        GameObject arch;
+        if (isBad)
         {
-            material.color = Color.red;
+            arch = Instantiate(badArchPrefab, pos, rot);
+            arch.name = "Bad Arch";
         }
         else
         {
-            material.color = Color.blue;
+            arch = Instantiate(goodArchPrefab, pos, rot);
+            arch.name = "Good Arch";
+            goodArches.Add(arch);
         }
+
+        
+        arch.transform.parent = gameObject.transform;
+        arches.Add(arch);
+
+        yield return new WaitForEndOfFrame();
+    }
+
+
+    public void addRigidbodyToArches()
+    {
+        foreach (GameObject arch in goodArches)
+        {
+            int upMagnitude = UnityEngine.Random.Range(20, 100);
+            int forwardMagnitude = UnityEngine.Random.Range(-100, 100);
+            int destroyTime = UnityEngine.Random.Range(2, 4);
+            if (arch != null)
+                if (arch.GetComponent<Rigidbody>() == null)
+                {
+                    Rigidbody gameObjectsRigidBody = arch.AddComponent<Rigidbody>();
+                    if (gameObjectsRigidBody != null)
+                    {
+                        gameObjectsRigidBody.mass = 5;
+                        gameObjectsRigidBody.AddForce(arch.transform.up * upMagnitude, ForceMode.Impulse);
+                        gameObjectsRigidBody.AddForce(arch.transform.forward * forwardMagnitude, ForceMode.Impulse);
+                        StartCoroutine(DestroyInSeconds(destroyTime, arch));
+                    }
+                }
+        }
+
+    }
+
+    private IEnumerator DestroyInSeconds(int destroyTime, GameObject gameObject)
+    {
+        arches.Remove(gameObject);
+        yield return new WaitForSeconds(destroyTime);        
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+/*        foreach (GameObject arch in arches)
+        {
+            if (arch)
+                Destroy(arch);
+            // arches.Clear();
+        }*/
+
+
     }
 
 }
