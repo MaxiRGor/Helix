@@ -1,30 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class CylindersAutoMoving : MonoBehaviour
 {
-    public GameObject cylinderPrefab;
-    private int numberOfCylinders = 5;
+    // private Component objectPoolerComponent;
+   // private int numberOfCylinders = 5;
     private float cylinderLength = 10f;
-    private GameObject player;
-    private float offset = 10f;
+    private int nextCylinderYPosition = 0;
+    
+    
+    private GameObject cylinder;
 
     private void Start()
-    {
-        player = GameObject.Find("PlayerSphere");
-    }
-
-    private void LateUpdate()
-    {
-        if (transform.position.y > player.transform.position.y + offset)
+    {       
+        for (; nextCylinderYPosition > - CylindersPooler.SharedInstance.amountToPool;)
         {
-            float nextCylinderYPosition = transform.position.y - (numberOfCylinders * cylinderLength);
-            Vector3 nextCylinderPosition = new Vector3(0, nextCylinderYPosition, 0);
-            Instantiate(cylinderPrefab, nextCylinderPosition, transform.rotation);
-            Destroy(gameObject);
+            AddCylinderToScene();
         }
     }
+/*
 
+    private IEnumerator Replace(float nextCylinderYPosition, Quaternion rotation)
+    {
+        gameObject.GetComponent<ArchGenScript>().DestroyArches();
+        yield return null;
+        Vector3 nextCylinderPosition = new Vector3(0, nextCylinderYPosition, 0);
+        //   Instantiate(cylinderPrefab, nextCylinderPosition, rotation);
+        Destroy(gameObject);
+        yield break;
+    }*/
+
+    public void AddCylinderToScene()
+    {
+        cylinder = CylindersPooler.SharedInstance.GetPooledObject();
+        if (cylinder != null)
+        {
+            cylinder.transform.position = new Vector3(0, nextCylinderYPosition * cylinderLength, 0);
+            cylinder.SetActive(true);
+            nextCylinderYPosition--;
+        }
+        else Debug.Log("Fuck");
+    }
+    
 }
 

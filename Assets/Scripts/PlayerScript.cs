@@ -13,11 +13,13 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        if (SystemInfo.deviceType != DeviceType.Desktop)
+            Application.targetFrameRate = 90;
+
         text = GameObject.Find("ScoreText").GetComponent<TMPro.TextMeshProUGUI>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (transform.position.y < 0)
             text.text = "Score " + (0 - (int)transform.position.y / 10);
@@ -26,7 +28,6 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.name == "Good Arch")
         {
             collision.gameObject.GetComponentInParent<ArchGenScript>().addRigidbodyToArches();
@@ -39,12 +40,6 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
             GetComponentInParent<PlayerMovement>().canMove = false;
             gameObject.GetComponent<Renderer>().enabled = false;
-
-
-            // GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
-            // GetComponentInParent<PlayerMovement>().canMove = false;
-            // Destroy(this.gameObject);
-
         }
 
     }
